@@ -106,7 +106,7 @@ void mainMenuInput(appData * app, char key){
         #ifdef __APPLE__
             system("osascript -e \'display notification \"華 Work!\" with title \"You need to focus\"\'");
         #else
-            system("notify-send -t 5000 -c cpomo \'華 Work!\' \'You need to focus\'");
+            system("notify-send -t 5000 \'Work!\' \'You need to focus\' -i ~/.local/share/icons/material/hourglass-top.svg");
         #endif
             system("mpv --no-vid --volume=50 /usr/local/share/tomato/sounds/dfltnotify.mp3 --really-quiet &");
         }
@@ -132,7 +132,7 @@ void mainMenuInput(appData * app, char key){
         #ifdef __APPLE__
             system("osascript -e \'display notification \"華 Work!\" with title \"You need to focus\"\'");
         #else
-            system("notify-send -t 5000 -c cpomo \'華 Work!\' \'You need to focus\'");
+            system("notify-send -t 5000 \'Work!\' \'You need to focus\' -i ~/.local/share/icons/material/hourglass-top.svg");
         #endif
             system("mpv --no-vid --volume=50 /usr/local/share/tomato/sounds/dfltnotify.mp3 --really-quiet &");
         }
