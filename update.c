@@ -53,7 +53,7 @@ void doUpdate(appData * app){
             #ifdef __APPLE__
                 system("osascript -e \'display notification \" Pause Break\" with title \"You have some time chill\"\'");
             #else
-                system("notify-send -t 5000 -c cpomo \' Pause Break\' \'You have some time chill\'");
+                system("notify-send -t 5000 \'Pause Break\' \'You have some time chill\' -i ~/.local/share/icons/material/local-cafe.svg");
             #endif
             }else{
                 app->E = 'M';
@@ -63,7 +63,7 @@ void doUpdate(appData * app){
             #ifdef __APPLE__
                 system("osascript -e \'display notification \" Pause Break\" with title \"You have some time chill\"\'");
             #else
-                system("notify-send -t 5000 -c cpomo \' Pause Break\' \'You have some time chill\'");
+                system("notify-send -t 5000 \'Pause Break\' \'You have some time chill\' -i ~/.local/share/icons/material/local-cafe.svg");
             #endif
             }
         }
@@ -89,7 +89,7 @@ void doUpdate(appData * app){
         #ifdef __APPLE__
             system("osascript -e \'display notification \"華 Work!\" with title \"You need to focus\"\'");
         #else
-            system("notify-send -t 5000 -c cpomo \'華 Work!\' \'You need to focus\'");
+            system("notify-send -t 5000 \'Work!\' \'You need to focus\' -i ~/.local/share/icons/material/hourglass-top.svg");
         #endif
         }
 
