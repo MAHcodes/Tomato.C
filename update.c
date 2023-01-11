@@ -53,7 +53,7 @@ void doUpdate(appData * app){
             #ifdef __APPLE__
                 system("osascript -e \'display notification \" Pause Break\" with title \"You have some time chill\"\'");
             #else
-                system("notify-send -t 5000 \'Pause Break\' \'You have some time chill\' -i ~/.local/share/icons/material/local-cafe.svg");
+                system("notify-send -t 5000 \'Pause Break\' \'You have some time chill\' -i /usr/local/share/tomato/icons/local-cafe.svg");
             #endif
                 system("mpv --no-vid --volume=50 /usr/local/share/tomato/sounds/pausenotify.mp3 --really-quiet &");
             }else{
@@ -64,7 +64,7 @@ void doUpdate(appData * app){
             #ifdef __APPLE__
                 system("osascript -e \'display notification \" Pause Break\" with title \"You have some time chill\"\'");
             #else
-                system("notify-send -t 5000 \'Pause Break\' \'You have some time chill\' -i ~/.local/share/icons/material/local-cafe.svg");
+                system("notify-send -t 5000 \'Pause Break\' \'You have some time chill\' -i /usr/local/share/tomato/icons/local-cafe.svg");
             #endif
                 system("mpv --no-vid --volume=50 /usr/local/share/tomato/sounds/pausenotify.mp3 --really-quiet &");
             }
@@ -91,7 +91,7 @@ void doUpdate(appData * app){
         #ifdef __APPLE__
             system("osascript -e \'display notification \"華 Work!\" with title \"You need to focus\"\'");
         #else
-            system("notify-send -t 5000 \'Work!\' \'You need to focus\' -i ~/.local/share/icons/material/hourglass-top.svg");
+            system("notify-send -t 5000 \'Work!\' \'You need to focus\' -i /usr/local/share/tomato/icons/hourglass-top.svg");
         #endif
             system("mpv --no-vid --volume=50 /usr/local/share/tomato/sounds/dfltnotify.mp3 --really-quiet &");
         }

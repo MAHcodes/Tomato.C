@@ -31,6 +31,7 @@ install: tomato
 	mkdir -p ${DESTDIR}${PREFIX}/share/tomato/sounds
 	cp -f sounds/dfltnotify.mp3 sounds/pausenotify.mp3 ${DESTDIR}${PREFIX}/share/tomato/sounds
 	chmod 755 ${DESTDIR}${PREFIX}/bin/tomato
+	cp -f icons/hourglass.svg icons/local-cafe.svg ${DESTDIR}${PREFIX}/share/tomato/icons
 
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/tomato
