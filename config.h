@@ -18,7 +18,7 @@ static const int WSL = 0;
 /* iconsoff - iconson - nerdicons
  * Note: you'll need a patched 
  * nerdicons for that option */
-static const char *ICONS = "nerdicons";
+static const char *ICONS = "iconsoff";
 
 /* 1 means notifications on, 0 off
  * Note: you'll need dunst */
@@ -33,12 +33,11 @@ static const int POMODOROS = 4;
 
 /* time for a work stage from 5 to 50 (default: 25)
  * (increment it by 5 by 5)*/
-static const int WORKTIME = 5;
+static const int WORKTIME = 25;
 
 /* time for the short pause from 1 to 10 (default: 5) */
-static const int SHORTPAUSE = 25;
+static const int SHORTPAUSE = 5;
 
 /* time for the long pause from 5 to 60 (default: 30)
  * (increment it by 5 by 5)*/
-static const int LONGPAUSE = 25;
-
+static const int LONGPAUSE = 30;
