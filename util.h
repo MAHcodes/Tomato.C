@@ -35,9 +35,9 @@ struct appData{
     int machineFrame;
     int beachFrame;
     int userInput;
+    int pausedTimer;
     int x;
     int y;
-    char E;
 };
 
 /* Defining the app funtions */
@@ -47,8 +47,9 @@ extern void getWindowSize(appData * );
 
 extern void timer(appData * );
 
-extern void printMainMenu(appData *);
+extern void printMainMenu(appData * , const char * );
 extern void printPomodoroCounter(appData * );
-extern void printTimer(appData *);
-extern void printSettings(appData *);
+extern void printPauseIndicator(appData * , const char * );
+extern void printTimer(appData * , const char * );
+extern void printSettings(appData * );
 

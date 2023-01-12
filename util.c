@@ -15,11 +15,12 @@
 #include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <locale.h>
 
 /* Initialize screen with colors, enabled keyboard and another little configs */
-void initScreen(){
+void initScreen(void){
 #ifdef XCURSES
     Xinitscr(argc, argv);
 #else
@@ -62,29 +63,48 @@ void timer(appData * app){
     int sec = 30;
     clock_t end = clock() + sec * (CLOCKS_PER_SEC);
     if(clock() < end) {
-        /* Debug */
-        //app->timer = app->timer - 60;
-        app->timer = app->timer - 1;
-        setColor(COLOR_WHITE, COLOR_BLACK, COLOR_WHITE);
+        if(app->pausedTimer != 1){
+            /* Debug */
+            //app->timer = app->timer - 60;
+            app->timer = app->timer - 1;
+        }
     }
 }
 
 /* Print the pomodoro counter */
 void printPomodoroCounter(appData * app){
-
-    if(app->E == 'C'){
+    if(app->currentMode == 1)
         setColor(COLOR_MAGENTA, COLOR_BLACK, A_BOLD);
-        mvprintw(((app->y / 2) - 7), ((app->x / 2) + 10) ,"%02d", app->pomodoroCounter);
+    else
+        setColor(COLOR_CYAN, COLOR_BLACK, A_BOLD);
+
+    mvprintw(((app->y / 2) - 7), ((app->x / 2) + 10) ,"%02d", app->pomodoroCounter);
+}
+
+/* Print the pause indicator */
+void printPauseIndicator(appData * app, const char * ICONS){
+    if(app->currentMode == 1)
+        setColor(COLOR_MAGENTA, COLOR_BLACK, A_BOLD);
+    else
+        setColor(COLOR_CYAN, COLOR_BLACK, A_BOLD);
+
+    if(strcmp(ICONS, "nerdicons") == 0){
+        if(app->pausedTimer == 1)
+            mvprintw(((app->y / 2) - 7), ((app->x / 2) - 11) ," ");
+    }
+    else if(strcmp(ICONS, "iconson") == 0){
+        if(app->pausedTimer == 1)
+            mvprintw(((app->y / 2) - 7), ((app->x / 2) - 11) ,"⏸️ ");
     }
     else{
-        setColor(COLOR_CYAN, COLOR_BLACK, A_BOLD);
-        mvprintw(((app->y / 2) - 7), ((app->x / 2) + 10) ,"%02d", app->pomodoroCounter);
+        if(app->pausedTimer == 1)
+            mvprintw(((app->y / 2) - 7), ((app->x / 2) - 11) ,"P ");;
     }
 }
 
 /* Print the Main Menu */
-void printMainMenu(appData * app){
-    printLogo(app);
+void printMainMenu(appData * app, const char * ICONS){
+    printLogo(app, ICONS);
 
     if(app->menuPos == 1){
         setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
@@ -155,7 +175,7 @@ void printSettings(appData * app){
     }
 }
 /* Print the Timer */
-void printTimer(appData * app){
+void printTimer(appData * app, const char * ICONS){
     int x = app->timer / 16;
     int div = x / 60;
     int mod = x % 60;
@@ -163,23 +183,59 @@ void printTimer(appData * app){
     char minutes[3] = {(div / 10) + '0', (div % 10) + '0', '\0'};
     char seconds[3] = {(mod / 10) + '0', (mod % 10) + '0', '\0'};
 
-    if(app->E == 'C'){
+    if(app->currentMode == 1){
         setColor(COLOR_MAGENTA, COLOR_BLACK, A_BOLD);
-        mvprintw(((app->y / 2) + 6), ((app->x / 2) - 11), " Pomodoro");
-        setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
-        mvprintw(((app->y / 2) + 6), ((app->x / 2) - 0), "[%02d minutes]", app->workTime);
+        if(strcmp(ICONS, "nerdicons") == 0){
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) - 11), " Pomodoro");
+            setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) + 0), "[%02d minutes]", app->workTime);
+        }
+        else if(strcmp(ICONS, "iconson") == 0){
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) - 12), "🍅 Pomodoro");
+            setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) + 1), "[%02d minutes]", app->workTime);
+        }
+        else{
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) - 10), "Pomodoro");
+            setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) - 1), "[%02d minutes]", app->workTime);
+        }
     }
-    else if(app->E == 'M'){
+    else if(app->currentMode == 2){
         setColor(COLOR_CYAN, COLOR_BLACK, A_BOLD);
-        mvprintw(((app->y / 2) + 6), ((app->x / 2) - 10), " Pause");
-        setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
-        mvprintw(((app->y / 2) + 6), ((app->x / 2) - 1), "[%02d minutes]", app->shortPause);
+        if(strcmp(ICONS, "nerdicons") == 0){
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) - 10), " Pause");
+            setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) - 1), "[%02d minutes]", app->shortPause);
+        }
+        else if(strcmp(ICONS, "iconson") == 0){
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) - 10), "☕ Pause");
+            setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) - 1), "[%02d minutes]", app->shortPause);
+        }
+        else{
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) - 9), "Pause");
+            setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) - 2), "[%02d minutes]", app->shortPause);
+        }
     }
     else{
         setColor(COLOR_CYAN, COLOR_BLACK, A_BOLD);
-        mvprintw(((app->y / 2) + 6), ((app->x / 2) - 12), " Long pause");
-        setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
-        mvprintw(((app->y / 2) + 6), ((app->x / 2) + 1), "[%02d minutes]", app->longPause);
+        if(strcmp(ICONS, "nerdicons") == 0){
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) - 12), " Long pause");
+            setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) + 1), "[%02d minutes]", app->longPause);
+        }
+        else if(strcmp(ICONS, "iconson") == 0){
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) - 13), "🌴 Long pause");
+            setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) + 2), "[%02d minutes]", app->longPause);
+        }
+        else{
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) - 11), "Long pause");
+            setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
+            mvprintw(((app->y / 2) + 6), ((app->x / 2) + 0), "[%02d minutes]", app->longPause);
+        }
     }
     setColor(COLOR_WHITE, COLOR_BLACK, A_BOLD);
     mvprintw(((app->y / 2) + 7), ((app->x / 2) - 2), "%s:%s", minutes, seconds);

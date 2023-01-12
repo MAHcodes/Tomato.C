@@ -18,15 +18,22 @@
 </p>
 
 <p align="center">
+  <a href="#-dependencies">Dependencies</a> •
   <a href="#-how-to-install">How to Install</a> •
   <a href="#-how-to-use">How to Use</a> •
   <a href="#%EF%B8%8F-controls-and-preferences">Controls and Preferences</a> •
   <a href="#-the-pomodoro-method">The Pomodoro Method</a> •
   <a href="#-to-do">To-do</a> •
-  <a href="#-dependencies">Dependencies</a> •
   <a href="#-contribute">Contribute</a> •
   <a href="#-license">License</a>
 </p>
+
+## ⚓ Dependencies
+It only needs [gcc](https://gcc.gnu.org/) to compile and [ncurses](https://invisible-island.net/ncurses/) as the graphic library. 
+
+But optionally you can install [dunst](https://github.com/dunst-project/dunst) to show notifications, [mpv](https://mpv.io/) for the notifications sounds and a [Nerd Font](https://www.nerdfonts.com/) for the icons.
+
+<b>Note</b>: if you're using <b>WSL</b>, install [wsl-notify-send](https://github.com/stuartleeks/wsl-notify-send) to get the notifications and then toggle it in the config.h. Saddly [mpv](https://mpv.io/) don't work at WSL, so there's not sounds.
 
 ## 💾 How to Install
 <b>Note</b>: a good practice is to clone the repo at <i>$HOME/.local/src/</i>
@@ -37,6 +44,7 @@ $ sudo make install
 ```
 
 ## 🚀 How to Use
+
 Just <b>type it</b> in the <b>terminal</b>:
 ```
 $ tomato
@@ -55,6 +63,7 @@ Use the following <b>keys</b> to <b>control</b> the application:
  * <b><i>Arrows or VIM Keys:</i></b> To move and select;
  * <b><i>ENTER:</i></b> To select;
  * <b><i>CTRL+X:</i></b> To return to the main menu wherever you are;
+ * <b><i>P or CTRL+P:</i></b> To toggle pause;
  * <b><i>ESC or Q:</i></b> To quit.
 
 You can configure the following settings:
@@ -63,6 +72,8 @@ You can configure the following settings:
  * <b><i>Work Time</i></b>;
  * <b><i>Short Pause Time</i></b>;
  * <b><i>Long Pause Time</i></b>.
+
+<b>Note</b>: Edit the config.h to your preference than `sudo make install` again to take effect.
 
 ## 🍅 The Pomodoro Method
 <img src="./media/tomatomethod.gif" alt="tomatomethod" width="210px" align="right">
@@ -90,11 +101,6 @@ The technique basically consists of using a timer to break down work into <b>int
 - [ ] Implement save current state
 - [ ] Implement mouse support
 - [ ] Implement simple note taking (maybe using a nvim instance)
-
-## ⚓ Dependencies
-It only needs [gcc](https://gcc.gnu.org/) to compile, [ncurses](https://invisible-island.net/ncurses/) as the graphic library, [dunst](https://github.com/dunst-project/dunst) to show notifications, [mpv](https://mpv.io/) for the notifications sounds and a [Nerd Font](https://www.nerdfonts.com/) for the icons.
-
-<b>Note</b>: if you're using <b>WSL</b>, use the [wsl-notify-send](https://github.com/stuartleeks/wsl-notify-send) to get the notifications!
 
 ## 🤝 Contribute
 Feel free to contribute to the project, the only requirement is to follow the commit tittle pattern:

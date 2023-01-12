@@ -15,14 +15,16 @@
 #include <ncurses.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <locale.h>
 
 /* Update variables */
-void doUpdate(appData * app){
+void doUpdate(appData * app, const int NOTIFY, const int SOUND, const char * ICONS, const int WSL){
 
     /* Mode 0 (Main Menu) */
     if(app->currentMode == 0){
+        app->pausedTimer = 0;
         frameTimer(app);
 
         /* Tomato Asounds/nimation */
@@ -45,28 +47,56 @@ void doUpdate(appData * app){
         frameTimer(app);
         if(app->timer == 0){
             if(app->pomodoroCounter == app->pomodoros){
-                app->E = 'B';
                 app->timer = (app->longPause * 60 * 16);
                 app->pomodoroCounter = 0;
                 app->frameTimer = 0;
                 app->currentMode = 3;
             #ifdef __APPLE__
-                system("osascript -e \'display notification \" Pause Break\" with title \"You have some time chill\"\'");
+                if(NOTIFY == 1){
+                    if(strcmp(ICONS, "nerdicons") == 0)
+                        system("osascript -e \'display notification \" Pause Break\" with title \"You have some time chill\"\'");
+                    else if(strcmp(ICONS, "iconson") == 0)
+                        system("osascript -e \'display notification \"🌴 Pause Break\" with title \"You have some time chill\"\'");
+                    else
+                        system("osascript -e \'display notification \"Pause Break\" with title \"You have some time chill\"\'");
+                }
             #else
-                system("notify-send -t 5000 \'Pause Break\' \'You have some time chill\' -i /usr/local/share/tomato/icons/local-cafe.svg");
+                if(NOTIFY == 1){
+                    if(strcmp(ICONS, "nerdicons") == 0)
+                        system("notify-send -t 5000 -c cpomo \' Pause Break\' \'You have some time chill\'");
+                    else if(strcmp(ICONS, "iconson") == 0)
+                        system("notify-send -t 5000 -c cpomo \'🌴 Pause Break\' \'You have some time chill\'");
+                    else
+                        system("notify-send -t 5000 \'Pause Break\' \'You have some time chill\' -i /usr/local/share/tomato/icons/local-cafe.svg");
+                }
             #endif
-                system("mpv --no-vid --volume=50 /usr/local/share/tomato/sounds/pausenotify.mp3 --really-quiet &");
+                if(SOUND == 1 && WSL == 0)
+                    system("mpv --no-vid --volume=50 /usr/local/share/tomato/sounds/pausenotify.mp3 --really-quiet &");
             }else{
-                app->E = 'M';
                 app->timer = (app->shortPause * 60 * 16);
                 app->frameTimer = 0;
                 app->currentMode = 2;
             #ifdef __APPLE__
-                system("osascript -e \'display notification \" Pause Break\" with title \"You have some time chill\"\'");
+                if(NOTIFY == 1){
+                    if(strcmp(ICONS, "nerdicons") == 0)
+                        system("osascript -e \'display notification \" Pause Break\" with title \"You have some time chill\"\'");
+                    else if(strcmp(ICONS, "iconson") == 0)
+                        system("osascript -e \'display notification \"☕ Pause Break\" with title \"You have some time chill\"\'");
+                    else
+                        system("osascript -e \'display notification \"Pause Break\" with title \"You have some time chill\"\'");
+                }
             #else
-                system("notify-send -t 5000 \'Pause Break\' \'You have some time chill\' -i /usr/local/share/tomato/icons/local-cafe.svg");
+                if(NOTIFY == 1){
+                    if(strcmp(ICONS, "nerdicons") == 0)
+                        system("notify-send -t 5000 -c cpomo \' Pause Break\' \'You have some time chill\'");
+                    else if(strcmp(ICONS, "iconson") == 0)
+                        system("notify-send -t 5000 -c cpomo \'☕ Pause Break\' \'You have some time chill\'");
+                    else
+                        system("notify-send -t 5000 \'Pause Break\' \'You have some time chill\' -i /usr/local/share/tomato/icons/local-cafe.svg");
+                }
             #endif
-                system("mpv --no-vid --volume=50 /usr/local/share/tomato/sounds/pausenotify.mp3 --really-quiet &");
+                if(SOUND == 1 && WSL == 0)
+                    system("mpv --no-vid --volume=50 /usr/local/share/tomato/sounds/pausenotify.mp3 --really-quiet &");
             }
         }
 
@@ -83,17 +113,31 @@ void doUpdate(appData * app){
         timer(app);
         frameTimer(app);
         if(app->timer == 0){
-            app->E = 'C';
             app->timer = (app->workTime * 60 * 16);
             app->frameTimer = 0;
             app->currentMode = 1;
             app->pomodoroCounter = app->pomodoroCounter + 1;
         #ifdef __APPLE__
-            system("osascript -e \'display notification \"華 Work!\" with title \"You need to focus\"\'");
+            if(NOTIFY == 1){
+                if(strcmp(ICONS, "nerdicons") == 0)
+                    system("osascript -e \'display notification \"華 Work!\" with title \"You need to focus\"\'");
+                else if(strcmp(ICONS, "iconson") == 0)
+                    system("osascript -e \'display notification \"👷 Work!\" with title \"You need to focus\"\'");
+                else
+                    system("osascript -e \'display notification \"Work!\" with title \"You need to focus\"\'");
+            }
         #else
-            system("notify-send -t 5000 \'Work!\' \'You need to focus\' -i /usr/local/share/tomato/icons/hourglass-top.svg");
+            if(NOTIFY == 1){
+                if(strcmp(ICONS, "nerdicons") == 0)
+                    system("notify-send -t 5000 -c cpomo \'華 Work!\' \'You need to focus\'");
+                else if(strcmp(ICONS, "iconson") == 0)
+                    system("notify-send -t 5000 -c cpomo \'👷 Work!\' \'You need to focus\'");
+                else
+                    system("notify-send -t 5000 \'Work!\' \'You need to focus\' -i /usr/local/share/tomato/icons/hourglass-top.svg");
+            }
         #endif
-            system("mpv --no-vid --volume=50 /usr/local/share/tomato/sounds/dfltnotify.mp3 --really-quiet &");
+            if(SOUND == 1 && WSL == 0)
+                system("mpv --no-vid --volume=50 /usr/local/share/tomato/sounds/dfltnotify.mp3 --really-quiet &");
         }
 
         /* Machine Animation */
